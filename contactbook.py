@@ -32,8 +32,7 @@ def findnum(name,user):
         mycur.execute(search)
 
     except:
-
-        return 0
+        pass
     search_result = mycur.fetchall()
     if len(search_result) == 0:
         return 'this contact name is not listed yet in your contact book'
@@ -46,17 +45,12 @@ def findnum(name,user):
                 print('number:  ', b)
                 print('email:  ', c)
                 print('relation:  ', d)
-            print("update")
             opt_choose = input('choose number or go back to main manue type 0 : ')
-            print("opt_choose ", opt_choose)
-            if not opt_choose or not (opt_choose > 0 and opt_choose <9):
-                print('opt_choosse')
+            if not opt_choose:
                 return 0
             if int(opt_choose) >= 1 and int(opt_choose) <= len(search_result):
-                print('if')
                 return search_result[int(opt_choose) - 1]
-            elif int(opt_choose) == 0 and int(opt_choose) > len(search_result):
-                print('elif')
+            elif int(opt_choose) == 0:
                 return 0
 
 
@@ -308,7 +302,7 @@ def options(user):
         delete = input('type your contact name: ')
         if delete:
             delete_result = findnum(delete,user)
-            print(delete_result)
+            #print(delete_result)
             if delete_result == 'this contact name is not listed yet in your contact book':
                 time.sleep(1)
                 os.system('clear')
