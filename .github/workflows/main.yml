@@ -58,7 +58,6 @@ jobs:
           cd /home/runner/work/python_codes/python_codes/infra/terraform
           full_ref="${{ github.ref }}"
           branch_name=$(echo $full_ref | cut -d'/' -f 3)
-          cd /home/runner/work/actions/actions/infra/terraform
           terraform init
           echo " Destination branch name is : $branch_name"
           if [[ "$branch_name" == "develop" ]]; then
@@ -126,7 +125,6 @@ jobs:
           cd /home/runner/work/python_codes/python_codes/infra/terraform
           full_ref="${{ github.ref }}"
           branch_name=$(echo $full_ref | cut -d'/' -f 3)
-          cd /home/runner/work/actions/actions/infra/terraform
           terraform init
           echo " Destination branch name is : $branch_name"
           if [[ "$branch_name" == "develop" ]]; then
