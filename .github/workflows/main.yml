@@ -51,7 +51,7 @@ jobs:
       id: init
       run: |
         
-          cd /home/runner/work/actions/tisaiful31/python_codes/terraform
+          cd /home/runner/work/actions/tisaiful31/python_codes/infra/terraform
           terraform init
           terraform workspace select uat || terraform workspace new uat
 
@@ -60,14 +60,14 @@ jobs:
       id: plan
       continue-on-error: false
       run: |
-          cd /home/runner/work/actions/tisaiful31/python_codes/terraform
+          cd /home/runner/work/actions/tisaiful31/python_codes/infra/terraform
           terraform plan -no-color -out=myplan
           
     - name: Upload file to artifact
       uses: actions/upload-artifact@v3
       with:
           name: my-file
-          path: /home/runner/work/actions/tisaiful31/python_codes/terraform/myplan
+          path: /home/runner/work/actions/tisaiful31/python_codes/infra/terraform/myplan
           
   pr-infra-deploy:
   
@@ -92,7 +92,7 @@ jobs:
       id: init
       run: |
         
-          cd /home/runner/work/actions/tisaiful31/python_codes/terraform
+          cd /home/runner/work/actions/tisaiful31/python_codes/infra/terraform
           terraform init
           terraform workspace select uat || terraform workspace new uat
           
