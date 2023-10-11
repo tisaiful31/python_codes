@@ -94,11 +94,15 @@ jobs:
       id: init
       run: |
         
-          cd //home/runner/work/python_codes/python_codes/infra/terraform
+          cd /home/runner/work/python_codes/python_codes/infra/terraform
           terraform init
           terraform workspace select uat || terraform workspace new uat
-          
+    - name: Download artifact
+      uses: actions/download-artifact@v3
+      with:
+          name: my-file
+          path: /home/runner/work/python_codes/python_codes/infra/terraform/myplan         
     - name: Terraform Apply
       run: |
-           cd /home/runner/work/actions/tisaiful31/python_codes/terraform
+           cd /home/runner/work/python_codes/python_codes/infra/terraform/
            terraform apply -auto-approve -input=false myplan
