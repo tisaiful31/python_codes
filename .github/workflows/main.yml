@@ -33,9 +33,9 @@ jobs:
       uses: actions/checkout@v4
       with:
           repository: TI-Tech-31/actions
-          token: ${{ secrets.TOKEN }}
+          token: ${{ secrets.TTOKEN }}
           path:  infra
-          ref: ${{ github.head_ref }} # Use the branch provided from input
+          ref: develop # Use the branch provided from input
       
 
     # Install the selected version of Terraform CLI 
