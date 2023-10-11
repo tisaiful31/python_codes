@@ -1,9 +1,13 @@
 name: Pull Request develop
 
-on:
- push:
-     branches:
-        '*'
+on: 
+  workflow_dispatch:
+    inputs:
+      branch:
+        type: choice
+        options:
+        - develop
+        - master
 permissions:
   issues: write
   pull-requests: write
@@ -52,10 +56,21 @@ jobs:
       run: |
         
           cd /home/runner/work/python_codes/python_codes/infra/terraform
-          pwd
-          ls
+          full_ref="${{ github.ref }}"
+          branch_name=$(echo $full_ref | cut -d'/' -f 3)
+          cd /home/runner/work/actions/actions/infra/terraform
           terraform init
-          terraform workspace select uat || terraform workspace new uat
+          echo " Destination branch name is : $branch_name"
+          if [[ "$branch_name" == "develop" ]]; then
+            echo "Setting Terraform workspace to 'uat'"
+            terraform workspace select uat || terraform workspace new uat
+          elif [[ "$branch_name" == "master" ]]; then
+            echo "Setting Terraform workspace to 'prod'"
+            terraform workspace select prod || terraform workspace new prod
+          else
+            echo "Branch not supported for Terraform workspace selection."
+            exit 1
+          fi 
 
     # Run a terraform plan
     - name: Terraform plan
@@ -107,9 +122,24 @@ jobs:
     - name: Terraform init
       id: init
       run: |
+        
           cd /home/runner/work/python_codes/python_codes/infra/terraform
+          full_ref="${{ github.ref }}"
+          branch_name=$(echo $full_ref | cut -d'/' -f 3)
+          cd /home/runner/work/actions/actions/infra/terraform
           terraform init
-          terraform workspace select uat || terraform workspace new uat
+          echo " Destination branch name is : $branch_name"
+          if [[ "$branch_name" == "develop" ]]; then
+            echo "Setting Terraform workspace to 'uat'"
+            terraform workspace select uat || terraform workspace new uat
+          elif [[ "$branch_name" == "master" ]]; then
+            echo "Setting Terraform workspace to 'prod'"
+            terraform workspace select prod || terraform workspace new prod
+          else
+            echo "Branch not supported for Terraform workspace selection."
+            exit 1
+          fi 
+          
     - name: Download artifact
       uses: actions/download-artifact@v3
       with:
