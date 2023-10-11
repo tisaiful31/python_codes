@@ -1,0 +1,104 @@
+name: Pull Request develop
+
+on:
+ push:
+     branches:
+        '*'
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
+env:
+  TF_LOG: INFO
+  TF_INPUT: false
+  
+jobs: 
+  pr-infra-check:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+
+    steps:
+
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+          role-to-assume: arn:aws:iam::354285753755:role/github-actions #change to reflect your IAM role’s ARN
+          aws-region: ap-southeast-1
+          role-session-name: AWSSession
+    # Checkout the repository to the GitHub Actions runner.
+    - name: Checkout Repo
+      uses: actions/checkout@v4
+      with:
+          repository: TI-Tech-31/actions
+          token: ${{ secrets.TOKEN }}
+          path:  infra
+          ref: ${{ github.head_ref }} # Use the branch provided from input
+      
+
+    # Install the selected version of Terraform CLI 
+    - name: Setup Terraform with specified version on the runner
+      uses: hashicorp/setup-terraform@v2
+      with:
+          terraform_version: 1.5.7
+          terraform_wrapper: false
+
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform init
+      id: init
+      run: |
+        
+          cd /home/runner/work/actions/actions/infra/terraform
+          terraform init
+          terraform workspace select uat || terraform workspace new uat
+
+    # Run a terraform plan
+    - name: Terraform plan
+      id: plan
+      if: github.event_name == 'pull_request'
+      continue-on-error: false
+      run: |
+          cd /home/runner/work/actions/actions/infra/terraform
+          terraform plan -no-color -out=myplan
+          terraform show -no-color myplan > ${GITHUB_WORKSPACE}/myplan
+          
+    - name: Upload file to artifact
+      uses: actions/upload-artifact@v3
+      with:
+          name: my-file
+          path: /home/runner/work/actions/actions/infra/terraform/myplan
+          
+  pr-infra-deploy:
+  
+    runs-on: ubuntu-latest
+    environment: terraform-apply
+    permissions:
+      id-token: write
+      contents: read
+        
+    needs: pr-infra-check
+   
+    steps:
+
+    - name: Setup Terraform with specified version on the runner
+      uses: hashicorp/setup-terraform@v2
+      with:
+          terraform_version: 1.5.7
+          terraform_wrapper: false
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform init
+      id: init
+      run: |
+        
+          cd /home/runner/work/actions/actions/infra/terraform
+          terraform init
+          terraform workspace select uat || terraform workspace new uat
+          
+    - name: Terraform Apply
+      run: |
+           cd /home/runner/work/actions/actions/infra/terraform
+           terraform apply -auto-approve -input=false myplan
