@@ -63,7 +63,7 @@ jobs:
       continue-on-error: false
       run: |
           cd /home/runner/work/python_codes/python_codes/infra/terraform
-          terraform plan -no-color -out=myplan
+          terraform plan  -out=myplan
           
     - name: Upload file to artifact
       uses: actions/upload-artifact@v3
