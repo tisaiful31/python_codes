@@ -35,7 +35,7 @@ jobs:
           repository: TI-Tech-31/actions
           token: ${{ secrets.TTOKEN }}
           path:  infra
-          ref: develop # Use the branch provided from input
+          ref: develop # Use the branch provided from input.
       
 
     # Install the selected version of Terraform CLI 
