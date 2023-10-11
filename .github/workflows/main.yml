@@ -74,7 +74,7 @@ jobs:
   pr-infra-deploy:
   
     runs-on: ubuntu-latest
-    environment: terraform-apply
+    environment: master
     permissions:
       id-token: write
       contents: read
