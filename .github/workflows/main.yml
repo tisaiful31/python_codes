@@ -68,7 +68,7 @@ jobs:
             echo "Setting Terraform workspace to 'prod'"
             terraform workspace select prod || terraform workspace new prod
           else
-            echo "Branch not supported for Terraform workspace selection."
+            echo "Branch not supported for Terraform workspace selection"
             exit 1
           fi 
 
