@@ -51,7 +51,7 @@ jobs:
       id: init
       run: |
         
-          cd /home/runner/work/actions/tisaiful31/python_codes
+          cd /home/runner/work/python_codes/python_codes/infra
           pwd
           ls
           terraform init
