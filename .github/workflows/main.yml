@@ -51,25 +51,23 @@ jobs:
       id: init
       run: |
         
-          cd /home/runner/work/actions/actions/infra/terraform
+          cd /home/runner/work/actions/tisaiful31/python_codes/terraform
           terraform init
           terraform workspace select uat || terraform workspace new uat
 
     # Run a terraform plan
     - name: Terraform plan
       id: plan
-      if: github.event_name == 'pull_request'
       continue-on-error: false
       run: |
-          cd /home/runner/work/actions/actions/infra/terraform
+          cd /home/runner/work/actions/tisaiful31/python_codes/terraform
           terraform plan -no-color -out=myplan
-          terraform show -no-color myplan > ${GITHUB_WORKSPACE}/myplan
           
     - name: Upload file to artifact
       uses: actions/upload-artifact@v3
       with:
           name: my-file
-          path: /home/runner/work/actions/actions/infra/terraform/myplan
+          path: /home/runner/work/actions/tisaiful31/python_codes/terraform/myplan
           
   pr-infra-deploy:
   
@@ -94,11 +92,11 @@ jobs:
       id: init
       run: |
         
-          cd /home/runner/work/actions/actions/infra/terraform
+          cd /home/runner/work/actions/tisaiful31/python_codes/terraform
           terraform init
           terraform workspace select uat || terraform workspace new uat
           
     - name: Terraform Apply
       run: |
-           cd /home/runner/work/actions/actions/infra/terraform
+           cd /home/runner/work/actions/tisaiful31/python_codes/terraform
            terraform apply -auto-approve -input=false myplan
