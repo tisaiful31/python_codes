@@ -38,7 +38,7 @@ jobs:
           repository: TI-Tech-31/actions
           token: ${{ secrets.TTOKEN }}
           path:  infra
-          ref: ${​​{​​ inputs.branch }​​}​​  # Use the branch provided from input
+          ref: ${{ github.event.inputs.branch }}  # Use the branch provided from input
       
 
     # Install the selected version of Terraform CLI 
@@ -108,7 +108,7 @@ jobs:
           repository: TI-Tech-31/actions
           token: ${{ secrets.TTOKEN }}
           path:  infra
-          ref: ${​​{​​ inputs.branch }} # Use the branch provided from input
+          ref: ${{ github.event.inputs.branch }} # Use the branch provided from input
           
     - name: Setup Terraform with specified version on the runner
       uses: hashicorp/setup-terraform@v2
