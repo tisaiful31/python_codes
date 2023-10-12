@@ -87,7 +87,7 @@ jobs:
   pr-infra-deploy:
   
     runs-on: ubuntu-latest
-    environment: master
+    environment: Approve
     permissions:
       id-token: write
       contents: read
