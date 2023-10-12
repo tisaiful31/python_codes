@@ -1,4 +1,4 @@
-name: Pull Request develop
+name: Pipeline to build infra usnig terraform
 
 on: 
   workflow_dispatch:
