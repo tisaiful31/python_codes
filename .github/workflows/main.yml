@@ -9,7 +9,6 @@ on:
         - develop
         - master
 permissions:
-  issues: write
   pull-requests: write
   contents: read
 env:
