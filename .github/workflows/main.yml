@@ -149,7 +149,7 @@ jobs:
 
   build-repo:
     runs-on: ubuntu-latest  # Specify the name of your self-hosted runner label here
-    environment: master
+    environment: Approve
     needs: pr-infra-deploy
     steps:
       - name: Checkout Repo1
