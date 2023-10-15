@@ -1,4 +1,4 @@
-name: Pipeline to build infra usnig terraform
+name: Infra build and deployment 
 
 on: 
   workflow_dispatch:
