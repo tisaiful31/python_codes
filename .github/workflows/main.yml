@@ -1,4 +1,4 @@
-name: Pull Request develop
+name: Infra build and deployment
 
 on: 
   workflow_dispatch:
@@ -9,7 +9,6 @@ on:
         - develop
         - master
 permissions:
-  pull-requests: write
   contents: read
 env:
   TF_LOG: INFO
@@ -146,28 +145,3 @@ jobs:
       run: |
            cd /home/runner/work/python_codes/python_codes/infra/terraform/
            terraform apply -auto-approve -input=false myplan
-
-  build-repo:
-    runs-on: ubuntu-latest  # Specify the name of your self-hosted runner label here
-    environment: Approve
-    needs: pr-infra-deploy
-    steps:
-      - name: Checkout Repo1
-        uses: actions/checkout@v4
-        with:
-          repository: tisaiful31/react-app-simple-hello-world
-          path: react
-          
-      - name: run commands
-        run:  cat /home/runner/work/python_codes/python_codes/react/Dockerfile
-          
-          
-      - name: run commands
-        run: pip install ansible 
-        
-      - name: Build Docker Image for Repo2
-        run: |
-          # Navigate to the directory containing the Dockerfile for Repo2
-          
-          # Build the Docker image for Repo2
-          ansible-playbook ansible/testpl.yaml
