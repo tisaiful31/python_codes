@@ -9,7 +9,6 @@ on:
         - develop
         - master
 permissions:
-  pull-requests: write
   contents: read
 env:
   TF_LOG: INFO
@@ -38,7 +37,7 @@ jobs:
           repository: TI-Tech-31/actions
           token: ${{ secrets.TTOKEN }}
           path:  infra
-          ref: ${​​{​​ inputs.branch }} # Use the branch provided from input
+          ref: ${{ github.event.inputs.branch }}  # Use the branch provided from input
       
 
     # Install the selected version of Terraform CLI 
@@ -87,7 +86,7 @@ jobs:
   pr-infra-deploy:
   
     runs-on: ubuntu-latest
-    environment: master
+    environment: Approve
     permissions:
       id-token: write
       contents: read
@@ -108,7 +107,7 @@ jobs:
           repository: TI-Tech-31/actions
           token: ${{ secrets.TTOKEN }}
           path:  infra
-          ref: ${​​{​​ inputs.branch }} # Use the branch provided from input
+          ref: ${{ github.event.inputs.branch }} # Use the branch provided from input
           
     - name: Setup Terraform with specified version on the runner
       uses: hashicorp/setup-terraform@v2
@@ -146,28 +145,3 @@ jobs:
       run: |
            cd /home/runner/work/python_codes/python_codes/infra/terraform/
            terraform apply -auto-approve -input=false myplan
-
-  build-repo:
-    runs-on: ubuntu-latest  # Specify the name of your self-hosted runner label here
-    environment: master
-    needs: pr-infra-deploy
-    steps:
-      - name: Checkout Repo1
-        uses: actions/checkout@v4
-        with:
-          repository: tisaiful31/react-app-simple-hello-world
-          path: react
-          
-      - name: run commands
-        run:  cat /home/runner/work/python_codes/python_codes/react/Dockerfile
-          
-          
-      - name: run commands
-        run: pip install ansible 
-        
-      - name: Build Docker Image for Repo2
-        run: |
-          # Navigate to the directory containing the Dockerfile for Repo2
-          
-          # Build the Docker image for Repo2
-          ansible-playbook ansible/testpl.yaml
