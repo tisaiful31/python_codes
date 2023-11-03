@@ -27,7 +27,7 @@ jobs:
     - name: configure aws credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-          role-to-assume: arn:aws:iam::354285753755:role/github-actions #change to reflect your IAM role’s ARN
+          role-to-assume: arn:aws:iam::account_number:role/github-actions #change to reflect your IAM role’s ARN
           aws-region: ap-southeast-1
           role-session-name: AWSSession
     # Checkout the repository to the GitHub Actions runner
@@ -97,7 +97,7 @@ jobs:
     - name: configure aws credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-          role-to-assume: arn:aws:iam::354285753755:role/github-actions #change to reflect your IAM role’s ARN
+          role-to-assume: arn:aws:iam::account_number:role/github-actions #change to reflect your IAM role’s ARN
           aws-region: ap-southeast-1
           role-session-name: AWSSession
           
