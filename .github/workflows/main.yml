@@ -38,7 +38,8 @@ jobs:
       id: init
       run: |
         
-          cd /home/ssm-user/actions-runner/test_runner/TI-Tech-31/actions/terraform
+          cd /home/ssm-user/actions-runner/test_runner/python_codes/
+          ls -lR
           full_ref="${{ github.ref }}"
           branch_name=$(echo $full_ref | cut -d'/' -f 3)
           terraform init
