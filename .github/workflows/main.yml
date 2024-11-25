@@ -17,9 +17,6 @@ env:
 jobs: 
   pr-infra-check:
     runs-on: self-hosted
-    permissions:
-      id-token: write
-      contents: read
 
 
     steps:
@@ -66,9 +63,6 @@ jobs:
   
     runs-on: self-hosted
     environment: Approve
-    permissions:
-      id-token: write
-      contents: read
         
     needs: pr-infra-check
    
