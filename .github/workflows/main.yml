@@ -38,8 +38,7 @@ jobs:
       id: init
       run: |
         
-          cd /home/ssm-user/actions-runner/test_runner/python_codes/
-          ls -lR
+          cd /home/ssm-user/actions-runner/test_runner/python_codes/python_codes/infra/terraform
           full_ref="${{ github.ref }}"
           branch_name=$(echo $full_ref | cut -d'/' -f 3)
           terraform init
@@ -60,12 +59,12 @@ jobs:
       id: plan
       continue-on-error: false
       run: |
-          cd /home/runner/work/python_codes/python_codes/infra/terraform
+          cd /home/ssm-user/actions-runner/test_runner/python_codes/python_codes/infra/terraform
           terraform plan  -out=myplan
           
   pr-infra-deploy:
   
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     environment: Approve
     permissions:
       id-token: write
@@ -76,5 +75,5 @@ jobs:
     steps:   
     - name: Terraform Apply
       run: |
-           cd /home/runner/work/python_codes/python_codes/infra/terraform/
+           cd /home/ssm-user/actions-runner/test_runner/python_codes/python_codes/infra/terraform
            terraform apply -auto-approve -input=false myplan
